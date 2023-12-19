@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body  onload="OrderId()">
+        <div class="container">
+            <audio autoplay>
+                <source src="/Payment Fail.mp3" type="audio/mpeg">
+                <source src="/media/epic.wav" type="audio/wav">
+              </audio>
+            <h1 class="text-center" style="margin-top: 100px;">Order Placed Successfully</h1>
+            <h5 class="text-center">Order Id : 
+                <b><span id="orderid"></span></b>
+            </h5>
+            <p style="text-align: center;">
+                <img src="https://gifdb.com/images/high/animated-green-verified-check-mark-k3et2jz52jyu2v22.webp" alt="cheked" width="10%">
+            </p>
+            <p style="text-align: center;">
+                <a href="http://127.0.0.1:5501/index.html" style="text-decoration: none;" class="btn btn-primary"><b>Return to home</b></a>
+            </p>
+        </div>
+        <script>
+            function OrderId(){
+            var xhttpOrderDetial=new XMLHttpRequest();//request object
+                xhttpOrderDetial.onreadystatechange=function()
+            
+                { 
+                    if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                console.log(this.responseText)
+                var jsonData=JSON.parse(this.responseText)
+               
+                document.getElementById('orderid').innerHTML = jsonData[0].order_id
+                }
+              }
+            xhttpOrderDetial.open("GET","http://127.0.0.1:8080/order-id",true)//open the connection for client and server
+            //xhttpOrderDetial.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpOrderDetial.send()
+            }
+
+        </script>
+        
+    </body> 
+</html>

@@ -1,0 +1,270 @@
+<!--orderd detials are avalibale heare-->
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+    <body onload="loadDashBoardData()">
+        
+        <!--Navigation starts-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">
+                    <img src="image/online-shop.png" alt="GOcart" width="30px">
+                    GOcart
+                </a>
+            </div>
+
+        </nav>
+        <!-- Navigation close -->
+        <div class="container">
+            <h1>Analytics Dashboard</h1>
+            <br>
+
+            <!-- Data Points Start -->
+            <div class="row">
+                <div class="col-3">
+                    <!-- Card Start -->
+                    <div class="card" style="background-color: rgb(255, 153, 28); color:rgb(255, 255, 255)">
+                        <div class="card-body">
+                            <h3 class="card-title" id="todayVisitors"></h3>
+                            <h5>Today's Visitors</h5>
+                        </div>
+
+                    </div>
+                    <!-- Card End -->
+
+                </div>
+                <div class="col-3">
+                    <div class="card" style="background-color: rgba(254, 2, 107, 0.704); color:rgba(61, 97, 69, 0.759)">
+                        <div class="card-body">
+                            <h3 class="card-title" id="adClicks"></h3>
+                            <h5>Today's Ad Cliks</h5>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card" style="background-color: rgb(68, 121, 255); color:rgb(25, 17, 17)">
+                        <div class="card-body">
+                            <h3 class="card-title" id="productClicks"></h3>
+                            <h5>Today's Product Clicks</h5>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card" style="background-color: rgb(204, 0, 250); color:rgb(247, 255, 4)">
+                        <div class="card-body">
+                            <h3 class="card-title" id="todayOrders"></h3>
+                            <h5>Today's Orders</h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Data Points End -->
+            <div class="row">
+                <div class="col-6">
+                    <br>
+                    <h5>Visitor's Treand Over Months</h5>
+                    <canvas id="myChart" width="400" height="200"></canvas>
+                </div>
+                <div class="col-6">
+                    <br>
+                    <h5>Recent Orders</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Sl</td>
+                                <td>Order Date</td>
+                                <td>Customer</td>
+                                <td>Products</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>1</td>
+                            <td>30-08-2002</td>
+                            <td>Adharsh</td>
+                            <td>Car toy</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>30-09-2022</td>
+                                <td>Sudeep P</td>
+                                <td>choiclet</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>30-10-2199</td>
+                                <td>Jayanth</td>
+                                <td>FF token</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <script>
+
+           
+
+            //AJAX 
+            function loadDashBoardData(){
+                //AJAx for todays visitots 
+            var xhttpTodayVisitors=new XMLHttpRequest();//request object
+            xhttpTodayVisitors.onreadystatechange=function()
+            { 
+                if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                    console.log(this.responseText)
+                    var jsonData=JSON.parse(this.responseText)//string to json
+                    if(jsonData[0].visitor_count==''){
+                        document.getElementById('todayVisitors').innerHTML = 0
+                        return
+                    }
+                    else{
+                        document.getElementById('todayVisitors').innerHTML = jsonData[0].visitor_count  
+                    }
+                      
+                }
+            }
+            xhttpTodayVisitors.open("GET","http://127.0.0.1:8080/today-visitors",true)//open the connection for client and server
+            //xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpTodayVisitors.send() 
+
+            //AJAX for AD clicks
+            var xhttpTodayAdclicks=new XMLHttpRequest();//request object
+            xhttpTodayAdclicks.onreadystatechange=function()
+            { 
+                if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                    console.log(this.responseText)
+                    var jsonData=JSON.parse(this.responseText)//string to json
+                    document.getElementById('adClicks').innerHTML = jsonData[0].clicks   
+                }
+            }
+            xhttpTodayAdclicks.open("GET","http://127.0.0.1:8080/today-adclicks",true)//open the connection for client and server
+            //xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpTodayAdclicks.send() 
+
+            //AJAx for Product cLicks
+            var xhttpTodayProductclicks=new XMLHttpRequest();//request object
+            xhttpTodayProductclicks.onreadystatechange=function()
+            { 
+                if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                    console.log(this.responseText)
+                    var jsonData=JSON.parse(this.responseText)//string to json
+                    document.getElementById('productClicks').innerHTML = jsonData[0].totalcount
+                }
+            }
+            xhttpTodayProductclicks.open("GET","http://127.0.0.1:8080/today-product-clicks",true)//open the connection for client and server
+            //xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpTodayProductclicks.send()
+
+            //AJAX for ORder count
+            var xhttpOrderCount=new XMLHttpRequest();//request object
+            xhttpOrderCount.onreadystatechange=function()
+            { 
+                if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                    console.log(this.responseText)
+                    var jsonData=JSON.parse(this.responseText)//string to json
+                    document.getElementById('todayOrders').innerHTML = jsonData[0].totalOrder   
+                }
+            }
+            xhttpOrderCount.open("GET","http://127.0.0.1:8080/order-count",true)//open the connection for client and server
+            //xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpOrderCount.send() 
+
+
+            
+
+            //AJAX for visitore's trand
+            var xhttpVisitorTreand=new XMLHttpRequest();//request object
+            xhttpVisitorTreand.onreadystatechange=function()
+            { 
+                if(this.readyState==4 && this.status==200)
+                {//4 means client is ready for response 200 server response code for success response
+                    console.log(this.responseText)
+                    var monthArr = []
+                    var jsonData=JSON.parse(this.responseText)//string to json
+                    for(var m=1;m<=12;m++){
+                        matchResult = chkvalueJson(jsonData,m)
+                        if(matchResult>0){
+                            monthArr.push(matchResult)
+                        }
+                        else{
+                            monthArr.push(0)
+                        }
+                        console.log(monthArr)
+                    }//End for
+                    //Grafh Start
+                     // Sample data
+            const labels = ['jan', 'feb', 'mar', 'apr', 'may','jun','jly','aug','sep','oct','nov','dec'];
+           //3 const data = [12, 19, 3, 5, 2,8,5,7,8,3,6,4]; // Sample data values
+    
+            // Create a bar chart
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Visitors Trend',
+                        data: monthArr,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+                }
+            }
+            xhttpVisitorTreand.open("GET","http://127.0.0.1:8080/visitor-trend",true)//open the connection for client and server
+            //xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+            xhttpVisitorTreand.send()
+            }
+            function chkvalueJson(jsonData,value){
+                var jsonLength = jsonData.length
+                var match = 0
+                for(var i=0;i<jsonLength;i++){
+                    if(Number(jsonData[i].month)==Number(value)){
+                        match = jsonData[i].monthly_visitors
+                        break
+    
+                    }
+                    
+                }
+                return match
+            }
+        </script>
+        
+        
+    </body>
+</html>

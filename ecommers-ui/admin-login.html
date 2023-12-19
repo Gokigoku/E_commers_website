@@ -1,0 +1,187 @@
+<!--login information of every admin-->
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <div style="margin-top: 150px;">
+                        <center>
+                        <img src="image/online-shop.png" alt="logo.pnf" width="40%" height="130" style="margin-left: -20px;">
+                        <h5 class="text-center">GOcart Admin Login</h5>
+                    </center>
+                    <p class="text-center">
+                        <input type="text" class="form-control" placeholder="User name or Email" id="username">
+                    </p>
+                    <p class="text-center">
+                        <input type="password" class="form-control" placeholder="Password" id="password">
+                    </p>
+                    <p>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="validateLogin()">
+                            Log in
+                        </button>
+                        <br>
+                        <span style="color: red;" id ="errMSg"></span>
+                    </p>
+                    </div>
+                </div>
+                <div class="col-4"></div>
+            </div>
+            <!-- <div>
+                <img src="https://img.freepik.com/free-vector/realistic-light-bulb-isolated_1284-41741.jpg?size=626&ext=jpg&ga=GA1.1.59650045.1693463714&semt=ais" alt="bulb off" width="30%" onclick="turnOnOff()"  id="bb">
+            </div> -->
+            
+
+        </div>
+        <script>
+            function validateLogin(){
+                var uname = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+                if(uname.length==0){
+                    document.getElementById('errMSg').innerHTML='Plz Enter Name'
+                    return 
+                }
+                else{
+                    document.getElementById('errMSg').innerHTML=''
+                }
+                if(password.length==0){
+                    document.getElementById('errMSg').innerHTML='Plz Enter Name'
+                    return 
+                }
+                else{
+                    document.getElementById('errMSg').innerHTML=''
+                }
+                //AJAX
+                var xhttpAdminLogin=new XMLHttpRequest();//request object
+                xhttpAdminLogin.onreadystatechange=function()
+                { 
+                    if(this.readyState==4 && this.status==200)
+                    {//4 means client is ready for response 200 server response code for success response
+                        console.log(this.responseText)
+                        var jsonData=JSON.parse(this.responseText)//string to json
+                        //checking or validating
+                        if(jsonData[0].errFlag == 1){
+                            document.getElementById('errMSg').innerHTML=jsonData[0].message
+                        }
+                        else
+                        {
+                            window.location.href="admin-dashbord.html"
+                            document.getElementById('errMSg').innerHTML=""
+                        }
+                    }
+                }
+                 xhttpAdminLogin.open("POST","http://127.0.0.1:8080/validate-cread",true)//open the connection for client and server
+                 xhttpAdminLogin.setRequestHeader("Content-type","application/x-www-form-urlencoded")//encription
+                 xhttpAdminLogin.send('username='+uname+'&password='+password)    
+
+            }
+        </script>
+        <!-- <script>
+            a = 10
+            b = 1
+            c = a+b
+            console.log("sum of a+b is ",c)
+
+            var a = 10
+            var b = '10'
+            c=a+b 
+            console.log(c)
+
+            
+            var a = 10
+            var b = String(10)
+            c=a+Number(b) 
+            console.log(c)
+
+            
+            for(i=10;i>=1;i--){
+                console.log(i)
+            }
+            //sum of first 10 numbers
+            var a=0
+            for(i=1;i<=10;i++){
+                a+=i    
+            }
+            console.log(a)
+
+            //odd number only
+            for(i=1;i<=10;i++){
+                if(i%2!=0){
+                    console.log(i)
+                }    
+            }
+
+            //array in java script
+            a=[1,1.2,'a',1.44]
+            for(i=0;i<a.length;i++){
+                console.log(a[i])
+            }
+            //another example(linera search)
+            b = [50,23,89,30]
+            max=b[0]
+            for(i=1;i<b.length;i++){
+                if(max<b[i+1]){
+                    max=b[i+1]
+                }
+            }
+            console.log(max)
+
+            //stack
+            st = []
+            size=4
+            for(i=0;i<5;i++){
+                if(i==size){
+                    console.log("overflow")
+                    break
+                }
+                st.unshift(i)
+                console.log(st)
+                
+            }
+            console.log("Array Elements are: ",st)
+            for(i=st.length-1;i>=-1;i--){
+                if(i==-1){
+                    console.log("underflow")
+                    break
+                }
+                console.log(st)
+                st.pop(st[i])
+            }
+            console.log("Array Elements are: ",st)
+            //stack end
+
+            function multiplay(a,b){
+                console.log("mulitiply of two number",a*b)
+            }
+            //a = prompt("Enter 1st number")
+            //b = prompt("Enter 2nd number ")
+            multiplay(a,b)
+            var a=[1]
+            
+             function turnOnOff(){
+                if(a[0]==0){
+                    a[0]=1
+                //DOM elements using
+                document.getElementById("bb").src="https://img.freepik.com/free-vector/realistic-light-bulb-isolated_1284-41741.jpg?size=626&ext=jpg&ga=GA1.1.59650045.1693463714&semt=ais"
+                return
+                
+                
+                }
+                if(a[0]==1){
+                    a[0]=0
+                    document.getElementById("bb").src="https://img.freepik.com/free-vector/realistic-lit-light-bulb-isolated_1284-41774.jpg?size=626&ext=jpg&ga=GA1.1.59650045.1693463714&semt=ais";
+                    return
+                    
+                }
+                
+            }
+
+
+
+        </script> -->
+        
+    </body>
+</html>

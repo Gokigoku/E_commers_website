@@ -1,0 +1,35 @@
+span {color: rgb(159, 109, 47);
+        font-style: italic;}
+
+        body {background-color: gainsboro;}
+div {margin: 10%;}
+
+img {border: 05px black;
+border-style: ridge;}
+
+p {margin-left: 10%;
+margin-right: 10%;
+color: black;}
+
+table,th,td {border-color:black;
+border-style: groove;
+border-collapse: collapse;}
+table {margin: auto;}
+th,td {padding: 0.5%;}
+thead {background-color: cadetblue;
+font-style: italic;
+font-size: 19px;
+color: black;}
+tbody {background-color: burlywood;
+font-weight: bold;}
+form {border-color: black 2px;
+border-style: solid;
+align-items: flex-end;
+}
+#idatributre {
+font-size: 80px;
+color: blue;
+background-color: burlywood;}
+.one {
+margin-top: 10%;
+}
